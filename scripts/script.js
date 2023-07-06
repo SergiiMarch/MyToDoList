@@ -1,6 +1,6 @@
 import refs from "./refs.js";
 import { addNewTask, handleTaskBehaviour } from "./function.js";
-console.log(refs);
+import { save, load } from "./storage.js";
 
 refs.addBtn.addEventListener("click", addNewTask);
 refs.myUL.addEventListener("click", handleTaskBehaviour);
