@@ -30,6 +30,10 @@ function handleTaskBehaviour({ target }) {
     cerrentObj.isDone = !cerrentObj.isDone;
   } else if (target.nodeName === "SPAN") {
     target.parentNode.remove();
+    const index = tasks.findIndex(
+      (task) => Number(task.id) === Number(target.parentNode.dataset.id)
+    );
+    tasks.splice(index, 1);
   }
   save(STORAGE_KEY, tasks);
 }
