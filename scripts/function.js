@@ -38,10 +38,11 @@ function handleTaskBehaviour({ target }) {
   save(STORAGE_KEY, tasks);
 }
 
-function createLi({ text, id = currentId }) {
+function createLi({ text, id = currentId, isDone }) {
   const liEl = document.createElement("li");
   liEl.textContent = text;
   liEl.dataset.id = id;
+  if (isDone) liEl.classList.add("checked");
   addCloseButton(liEl);
   refs.myUL.appendChild(liEl);
 }
@@ -74,5 +75,14 @@ function addTaskToStorage(text) {
   }
   currentId += 1;
 }
+function fiilTaskList() {
+  const tasks = load(STORAGE_KEY);
+  if (tasks !== undefined) {
+    tasks.forEach((taskObj) => {
+      createLi(taskObj);
+      currentId = 1 + taskObj.id;
+    });
+  }
+}
 
-export { addNewTask, handleTaskBehaviour };
+export { addNewTask, handleTaskBehaviour, fiilTaskList };
