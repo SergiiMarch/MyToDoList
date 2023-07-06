@@ -20,17 +20,24 @@ function addNewTask() {
 }
 
 function handleTaskBehaviour({ target }) {
-  console.log(target.nodeName);
+  const tasks = load(STORAGE_KEY);
+
   if (target.nodeName === "LI") {
     target.classList.toggle("checked");
+    const cerrentObj = tasks.find(
+      (task) => Number(task.id) === Number(target.dataset.id)
+    );
+    cerrentObj.isDone = !cerrentObj.isDone;
   } else if (target.nodeName === "SPAN") {
     target.parentNode.remove();
   }
+  save(STORAGE_KEY, tasks);
 }
 
-function createLi({ text }) {
+function createLi({ text, id = currentId }) {
   const liEl = document.createElement("li");
   liEl.textContent = text;
+  liEl.dataset.id = id;
   addCloseButton(liEl);
   refs.myUL.appendChild(liEl);
 }
@@ -57,7 +64,11 @@ function addTaskToStorage(text) {
   if (tasks === undefined) {
     const taskArr = [creatTaskObject({ text })];
     save(STORAGE_KEY, taskArr);
+  } else {
+    tasks.push(creatTaskObject({ text }));
+    save(STORAGE_KEY, tasks);
   }
+  currentId += 1;
 }
 
 export { addNewTask, handleTaskBehaviour };
